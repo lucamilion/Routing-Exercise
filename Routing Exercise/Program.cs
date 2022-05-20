@@ -16,7 +16,7 @@ namespace Routing_Exercise
             string[] testStrings = new string[]
             {
                 "/home",
-                "/our-ceo.html -> /about-us.html",
+                "/about -> /about-us.html",
                 "/about-us.html -> /about",
                 "/product-1.html -> /seo"
             };

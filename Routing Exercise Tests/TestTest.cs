@@ -24,29 +24,25 @@ namespace Routing_Exercise_Tests
         public void SetUp()
         {
             engine = new RedirectEngine();
+            usedRoutes = new List<string>();
+        }
 
-            expectedCount = 4;
+        [TestMethod]
+        public void DemoTest()
+        {
+            expectedCount = 3;
             expectedRoutes = new List<string>();
             expectedRoutes.Add("/home");
-            expectedRoutes.Add("/our-ceo.html -> /about-us.html");
-            expectedRoutes.Add("/about-us.html -> /about");
+            expectedRoutes.Add("/our-ceo.html -> /about-us.html -> /about");
             expectedRoutes.Add("/product-1.html -> /seo");
-            
-            testStrings = new string[4]
-           {
+
+            testStrings = new string[]
+            {
                 "/home",
                 "/our-ceo.html -> /about-us.html",
                 "/about-us.html -> /about",
                 "/product-1.html -> /seo"
-           };
-
-            usedRoutes = new List<string>();
-
-        }
-
-        [TestMethod]
-        public void PassThrough()
-        {           
+            };
 
             resultStrings = engine.Process(testStrings);
 
@@ -58,6 +54,37 @@ namespace Routing_Exercise_Tests
                 Assert.IsTrue(expectedRoutes.Contains(route));
             }
             Assert.AreEqual(expectedCount, routeCount);
+ 
         }
+
+        [TestMethod]
+        public void ExceptionTest()
+        {
+            expectedCount = 1;
+            expectedRoutes = new List<string>();
+            expectedRoutes.Add("Exception of type 'Routing_Exercise.CircularReferenceException' was thrown.");
+
+            testStrings = new string[]
+            {
+                "/home",
+                "/about -> /about-us.html",
+                "/about-us.html -> /about",
+                "/product-1.html -> /seo"
+            };
+
+            resultStrings = engine.Process(testStrings);
+
+            foreach (string route in resultStrings)
+            {
+                Assert.IsFalse(usedRoutes.Contains(route));
+                usedRoutes.Add(route);
+                routeCount++;
+                Assert.IsTrue(expectedRoutes.Contains(route));
+            }
+            Assert.AreEqual(expectedCount, routeCount);
+
+        }
+
+
     }
 }
