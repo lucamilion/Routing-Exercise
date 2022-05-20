@@ -10,13 +10,35 @@ namespace Routing_Exercise
     {
         public IEnumerable<string> Process(IEnumerable<string> routes)
         {
-            List<string> listRoutes = new List<string>();
+            List<List<string>> listRoutes = new List<List<string>>();
+            List<string> finalRoutes = new List<string>();
 
-            foreach(string route in routes)
+            string[] delimiter = { "->" };
+
+            foreach (string route in routes)
             {
-                listRoutes.Add(route);
+                string[] pages = route.Split(delimiter, System.StringSplitOptions.RemoveEmptyEntries);
+                List<string> listPages = pages.ToList();
+                List<string> trimmedList = new List<string>();
+                foreach (string page in listPages)
+                {
+                    string trimedPage = page.Trim();
+                    trimmedList.Add(trimedPage);
+                }
+                listRoutes.Add(trimmedList);
             }
-            return routes;
+            foreach (List<string> routeList in listRoutes)
+            {
+                StringBuilder assembleRoute = new StringBuilder();
+                for (int i = 0; i < (routeList.Count()-1); i++)
+                {
+                    assembleRoute.Append(routeList.ElementAt(i));
+                    assembleRoute.Append(" -> ");
+                }
+                assembleRoute.Append(routeList.Last());
+                finalRoutes.Add(assembleRoute.ToString());
+            }
+            return finalRoutes;
         }
     }
 }
