@@ -10,6 +10,12 @@ namespace Routing_Exercise
     {
         public IEnumerable<string> Process(IEnumerable<string> routes)
         {
+            List<string> listRoutes = new List<string>();
+
+            foreach(string route in routes)
+            {
+                listRoutes.Add(route);
+            }
             return routes;
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,8 +11,25 @@ namespace Routing_Exercise
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World");
+            RedirectEngine engine = new RedirectEngine();
+
+            string[] testStrings = new string[4]
+            {
+                "/home",
+                "/our-ceo.html -> /about-us.html",
+                "/about-us.html -> /about",
+                "/product-1.html -> /seo"
+            };
+
+            IEnumerable resultStrings = engine.Process(testStrings);
+
+            foreach(string s in resultStrings)
+            {
+                Console.WriteLine(s);
+            } 
+
             Console.ReadLine();
+
         }
     }
 }
