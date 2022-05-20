@@ -13,7 +13,7 @@ namespace Routing_Exercise
         {
             RedirectEngine engine = new RedirectEngine();
 
-            string[] testStrings = new string[4]
+            string[] testStrings = new string[]
             {
                 "/home",
                 "/our-ceo.html -> /about-us.html",

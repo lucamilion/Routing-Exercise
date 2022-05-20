@@ -27,16 +27,50 @@ namespace Routing_Exercise
                 }
                 listRoutes.Add(trimmedList);
             }
+            for (int i = 0; i < listRoutes.Count(); i++)
+            {
+                List<string> currentRoute = listRoutes.ElementAt(i);
+
+                if (currentRoute.Count() > 1)
+                {
+                    for (int j = 0; j < listRoutes.Count(); j++)
+                    {
+                        List<string> compareRoute = listRoutes.ElementAt(j);
+                        if (compareRoute.Count() > 0)
+                        {
+                            if (currentRoute.Last() == compareRoute.First())
+                            {
+                                if (i == j)
+                                {
+                                    throw new circularReferenceException;
+                                }
+                                else
+                                {
+                                    currentRoute.RemoveAt(currentRoute.Count() - 1);
+                                    currentRoute.AddRange(compareRoute);
+                                    compareRoute.Clear();
+                                    j = 0;
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+
             foreach (List<string> routeList in listRoutes)
             {
-                StringBuilder assembleRoute = new StringBuilder();
-                for (int i = 0; i < (routeList.Count()-1); i++)
+                if (routeList.Count() > 0)
                 {
-                    assembleRoute.Append(routeList.ElementAt(i));
-                    assembleRoute.Append(" -> ");
+                    StringBuilder assembleRoute = new StringBuilder();
+                    for (int i = 0; i < (routeList.Count() - 1); i++)
+                    {
+                        assembleRoute.Append(routeList.ElementAt(i));
+                        assembleRoute.Append(" -> ");
+                    }
+                    assembleRoute.Append(routeList.Last());
+                    finalRoutes.Add(assembleRoute.ToString());
                 }
-                assembleRoute.Append(routeList.Last());
-                finalRoutes.Add(assembleRoute.ToString());
             }
             return finalRoutes;
         }
