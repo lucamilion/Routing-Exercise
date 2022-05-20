@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Routing_Exercise;
 using System;
 
 namespace Routing_Exercise_Tests
@@ -11,10 +12,28 @@ namespace Routing_Exercise_Tests
         {
             Assert.IsTrue(true);
         }
+    }
+
+    [TestClass]
+    public class RedirectTest
+    {
         [TestMethod]
-        public void TestFail()
+        public void PassThrough()
         {
-            Assert.IsFalse(true);
+            RedirectEngine engine = new RedirectEngine();
+
+            string[] testStrings = new string[4] 
+            {
+                "/home",
+                "/our-ceo.html -> /about-us.html",
+                "/about-us.html -> /about",
+                "/product-1.html -> /seo"
+            };
+
+            string[] resultStrings = (string[])engine.Process(testStrings);
+
+            Assert.AreEqual(testStrings, resultStrings);
+
         }
     }
 }
